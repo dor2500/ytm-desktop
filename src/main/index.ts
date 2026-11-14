@@ -1,10 +1,11 @@
 import { app, BrowserWindow, ipcMain, shell } from 'electron'
 import { join } from 'node:path'
-import type { AuthState } from '@shared/types'
+import type { AuthState, MusicService, ServiceBounds } from '@shared/types'
 import * as auth from './auth'
 import * as yt from './yt'
 import * as engine from './engine'
 import * as adblock from './adblock'
+import * as services from './services'
 import { serveRenderer } from './server'
 
 // Use real Chrome User-Agent to avoid Google's "This browser or app may not be secure" block
@@ -48,6 +49,15 @@ function registerIpc(): void {
   ipcMain.handle('adblock:stats', () => adblock.getStats())
   ipcMain.handle('adblock:toggle', () => adblock.toggleAdBlock())
 
+  // Multi-Service Switcher IPC (YouTube Music, Spotify, SoundCloud)
+  ipcMain.handle('service:get', () => services.getService())
+  ipcMain.handle('service:set', (_e, s: MusicService, bounds?: ServiceBounds) =>
+    services.setService(s, bounds)
+  )
+  ipcMain.handle('service:updateBounds', (_e, bounds: ServiceBounds) =>
+    services.updateBounds(bounds)
+  )
+
   engine.init(
     (state) => mainWindow?.webContents.send('player:state', state),
     (key) => mainWindow?.webContents.send('player:mediaKey', key)
@@ -81,13 +91,13 @@ async function createWindow(): Promise<void> {
     process.env['ELECTRON_RENDERER_URL'] ?? (await serveRenderer(join(__dirname, '../renderer')))
 
   mainWindow = new BrowserWindow({
-    width: 1360,
-    height: 860,
+    width: 1380,
+    height: 880,
     minWidth: 1040,
     minHeight: 640,
     show: false,
-    backgroundColor: '#08090d',
-    title: 'Aria Music',
+    backgroundColor: '#07080b',
+    title: 'Nebula Music',
     titleBarStyle: 'hidden',
     titleBarOverlay: { color: '#00000000', symbolColor: '#b9bcc6', height: 44 },
     webPreferences: {
@@ -98,13 +108,14 @@ async function createWindow(): Promise<void> {
     }
   })
 
-  // Initialize ad blocker for this session and window
+  // Initialize ad blocker and services
   adblock.initAdBlocker(mainWindow)
+  services.initServices(mainWindow)
 
   mainWindow.once('ready-to-show', () => mainWindow?.show())
   mainWindow.on('closed', () => {
     mainWindow = null
-    // The hidden engine window would otherwise keep the app (and the music) alive.
+    services.destroyServices()
     engine.destroy()
   })
 

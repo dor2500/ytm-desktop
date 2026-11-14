@@ -5,10 +5,15 @@ let blockedCount = 0
 let mainWindow: BrowserWindow | null = null
 
 const AD_URL_PATTERNS = [
+  // General & Google Ads
   '*://*.doubleclick.net/*',
   '*://*.googleadservices.com/*',
   '*://*.googlesyndication.com/*',
   '*://pagead2.googlesyndication.com/*',
+  '*://*.moatads.com/*',
+  '*://*.scorecardresearch.com/*',
+
+  // YouTube Music Ads
   '*://*.youtube.com/pagead/*',
   '*://*.youtube.com/api/stats/ads*',
   '*://*.youtube.com/ptracking*',
@@ -16,8 +21,18 @@ const AD_URL_PATTERNS = [
   '*://*.youtube.com/get_midroll_info*',
   '*://music.youtube.com/youtubei/v1/att/get*',
   '*://*.youtube.com/youtubei/v1/player/ad_break*',
-  '*://*.moatads.com/*',
-  '*://*.scorecardresearch.com/*'
+
+  // Spotify Ads
+  '*://*.spotify.com/ad/*',
+  '*://spclient.wg.spotify.com/ads/*',
+  '*://spclient.wg.spotify.com/ad-logic/*',
+  '*://*.audio-ak-spotify-com.akamaized.net/*',
+  '*://heads-ak-spotify-com.akamaized.net/*',
+
+  // SoundCloud Ads
+  '*://*.sndcdn.com/promoted/*',
+  '*://api-v2.soundcloud.com/promoted-tracks*',
+  '*://api-v2.soundcloud.com/commercial-tracks*'
 ]
 
 export function initAdBlocker(win: BrowserWindow): void {

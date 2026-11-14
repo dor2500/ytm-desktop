@@ -230,6 +230,54 @@ h1, h2, h3, p {
   color: var(--muted);
 }
 
+/* Multi-service switcher */
+.service-switcher {
+  display: flex;
+  gap: 4px;
+  padding: 5px;
+  margin: 4px 12px 10px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+}
+
+.service-chip {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 6px 4px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  transition: all 0.14s ease;
+}
+
+.service-chip:hover {
+  color: var(--text);
+  background: var(--hover);
+}
+
+.service-chip.is-active {
+  background: var(--raised);
+  color: var(--text);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.service-chip.is-active svg {
+  color: var(--accent);
+}
+
+.service-chip.service-spotify.is-active svg {
+  color: #1ed760;
+}
+
+.service-chip.service-soundcloud.is-active svg {
+  color: #ff5500;
+}
+
 .side-nav {
   padding: 10px 12px;
   display: grid;

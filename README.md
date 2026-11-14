@@ -1,37 +1,58 @@
-# Aria - Modern YouTube Music Desktop Client
+# 🌌 Nebula Music — Universal Desktop Music Player
 
-A modern, fast, and feature-rich desktop client for YouTube Music built with Electron, React, and TypeScript.
+<div align="center">
 
-![Aria Music](https://img.shields.io/badge/Aria-YouTube%20Music-10b981?style=for-the-badge)
-![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)
-![Electron](https://img.shields.io/badge/Electron-45.3-47848F?style=for-the-badge&logo=electron)
-![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)
+![Nebula Music](https://img.shields.io/badge/Nebula-Universal%20Music-10b981?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-v0.2.0-blue?style=for-the-badge)
+![Windows](https://img.shields.io/badge/platform-Windows-0078D6?style=for-the-badge&logo=windows)
+![License](https://img.shields.io/badge/license-MIT-emerald?style=for-the-badge)
+
+**The ultimate ultra-modern desktop music player combining YouTube Music, Spotify, and SoundCloud with built-in ad blocking.**
+
+<br />
+
+[![Nebula Music Preview](assets/nebula-preview.svg)](https://github.com/dor2500/ytm-desktop/releases/latest)
+
+</div>
 
 ---
 
-## ✨ Features
+## ⚡ Quick Install (PowerShell)
 
-- **🛡️ Built-in Smart Ad Blocker**:
-  - Network-level filtering blocking ad trackers and promotional assets.
-  - Active in-player ad skipper that automatically skips and mutes any video/audio ads instantly.
-  - Live blocked ads counter and toggleable protection shield.
+Open PowerShell as User or Admin and run this single command to download and install Nebula Music automatically:
 
-- **🔑 Google Account Integration**:
-  - Secure Google sign-in window with desktop Chrome emulation to prevent "This browser or app may not be secure" blocks.
-  - Fast Browser Cookie Import: 1-click connect using your active browser session without typing passwords.
-  - Syncs your personal library, private playlists, liked songs, and subscription feed.
+```powershell
+irm https://raw.githubusercontent.com/dor2500/ytm-desktop/master/install.ps1 | iex
+```
 
-- **🎨 Ultra-Modern Glassmorphic UI**:
-  - Frosted acrylic backdrop blur with depth and dynamic glow adapting to the playing song's artwork.
-  - 6 customizable accent color themes (Emerald Neon, Electric Lime, Neon Violet, Cyber Cyan, Sunset Rose, Solar Amber).
-  - Mood & Activity filter chips on the Home screen (Relax, Workout, Focus, Energize, Commute, Party).
-  - Floating player bar with luminous seek bar, volume control, and animated like button.
+Or download the installer / portable `.exe` directly from [GitHub Releases](https://github.com/dor2500/ytm-desktop/releases/latest).
 
-- **🎵 Rich Music Playback**:
-  - Full YouTube Music catalogue playback powered by the official engine.
-  - Synchronized and full-text lyrics viewer.
-  - Interactive "Up Next" queue management with drag-to-jump.
-  - Hardware media keys support (Play/Pause, Next, Previous).
+---
+
+## ✨ Key Features
+
+### 🎧 1. Universal Multi-Service Music Hub
+* **YouTube Music**: Full official engine playback with recommendation shelves, collections, and private library.
+* **Spotify**: Integrated Spotify Web player container with seamless acrylic frame and ad blocking.
+* **SoundCloud**: Full SoundCloud discovery and stream integration.
+* **1-Click Switcher**: Easily switch between music platforms directly from the sidebar.
+
+### 🛡️ 2. Built-in Smart Ad Blocker
+* **Network-Level Filtering**: Intercepts and blocks tracking endpoints, promotional scripts, and ad requests (`doubleclick`, `googlesyndication`, `spotify/ads`, `sndcdn`).
+* **Active In-Player Auto-Skipper**: Automatically detects video and audio ads, mutes them instantly, and skips past them in under 50ms.
+* **Live Ad Counter**: Dynamic shield widget showing the number of blocked advertisements.
+
+### 🔑 3. Google Account Integration & Fast Session Import
+* **Direct Google OAuth**: Desktop Chrome emulation preventing Google's *"This browser or app may not be secure"* error.
+* **1-Click Browser Cookie Import**: Easily paste your browser's session cookies to sync your account instantly without typing passwords or completing 2FA.
+* **Full Library Sync**: Access your private playlists, liked songs, and subscription feed.
+
+### 🎨 4. Ultra-Modern Glassmorphic Design
+* **Obsidian Acrylic Aesthetic**: Frosted glass panels with `backdrop-filter: blur(24px)` and fine neon borders.
+* **Dynamic Ambient Glow**: Background smoothly radiates ambient light extracted from the currently playing album art.
+* **6 Theme Accents**: Emerald Neon, Electric Lime, Neon Violet, Cyber Cyan, Sunset Rose, and Solar Amber.
+* **Mood & Activity Chips**: Quick genre tags on Home (Relax, Workout, Focus, Energize, Party).
+* **Floating Player Dock**: Responsive seek bar, glowing play button, lyrics panel, and interactive queue.
 
 ---
 
@@ -43,46 +64,28 @@ A modern, fast, and feature-rich desktop client for YouTube Music built with Ele
 | `Shift + N` | Next track |
 | `Shift + P` | Previous track |
 | `Ctrl + K` or `/` | Focus search bar |
-| `Esc` | Close menus / modals |
+| `Esc` | Close menus and modals |
 
 ---
 
-## 🚀 Getting Started
+## 📦 Building from Source
 
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-
-### Installation
 ```bash
 # Clone the repository
 git clone https://github.com/dor2500/ytm-desktop.git
-
-# Navigate into project directory
 cd ytm-desktop
 
 # Install dependencies
 npm install
 
-# Start development mode
+# Run development mode
 npm run dev
-```
 
-### Production Build
-```bash
-# Build desktop packages (Installer & Portable)
+# Package Windows Setup & Portable binaries (.exe)
 npm run dist
 ```
 
 ---
 
-## 🛠️ Tech Stack
-- **Framework**: Electron + Vite (`electron-vite`)
-- **Frontend**: React 19, TypeScript
-- **Backend**: Node.js, `youtubei.js`
-- **Styling**: Modern CSS variables, acrylic glassmorphism, flexbox & grid
-
----
-
 ## 📄 License
-MIT License.
+MIT License © 2026 Nebula Projects.

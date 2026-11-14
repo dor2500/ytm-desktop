@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import type { AriaApi, AuthState, AdBlockStats, Item } from '@shared/types'
+import type { AriaApi, AuthState, AdBlockStats, Item, MusicService, ServiceBounds } from '@shared/types'
 import { createStore } from './store'
 
 declare global {
@@ -72,6 +72,20 @@ export const adblockStore = createStore<AdBlockStats>({
 
 void api.adblock.stats().then((s) => adblockStore.set(s))
 api.adblock.onStats((s) => adblockStore.set(s))
+
+/* ---------- multi-service store (YouTube Music, Spotify, SoundCloud) ---------- */
+
+export const serviceStore = createStore<{ current: MusicService }>({
+  current: 'ytm'
+})
+
+void api.service.get().then((s) => serviceStore.set({ current: s }))
+api.service.onChanged((s) => serviceStore.set({ current: s }))
+
+export function switchService(service: MusicService, bounds?: ServiceBounds): void {
+  serviceStore.set({ current: service })
+  void api.service.set(service, bounds)
+}
 
 /* ---------- theme / accent ---------- */
 

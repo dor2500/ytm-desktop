@@ -1,8 +1,8 @@
 {
-  "name": "ytm-desktop",
-  "productName": "Aria",
-  "version": "0.1.0",
-  "description": "Alternative desktop client for YouTube Music",
+  "name": "nebula-music",
+  "productName": "Nebula Music",
+  "version": "0.2.0",
+  "description": "Nebula: Universal modern desktop music player for YouTube Music, Spotify & SoundCloud with built-in ad blocker",
   "private": true,
   "main": "out/main/index.js",
   "scripts": {
@@ -25,10 +25,10 @@
     "typescript": "^7.0.2",
     "vite": "^8.3.8"
   },
-  "author": "Aria",
+  "author": "Nebula Projects",
   "build": {
-    "appId": "app.aria.ytm",
-    "productName": "Aria",
+    "appId": "app.nebula.music",
+    "productName": "Nebula Music",
     "directories": {
       "output": "dist"
     },
@@ -45,10 +45,10 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
-      "artifactName": "Aria-Setup-${version}.${ext}"
+      "artifactName": "Nebula-Setup-${version}.${ext}"
     },
     "portable": {
-      "artifactName": "Aria-Portable-${version}.${ext}"
+      "artifactName": "Nebula-Portable-${version}.${ext}"
     }
   }
 }

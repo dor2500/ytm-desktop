@@ -50,6 +50,15 @@ export interface AdBlockStats {
   blockedCount: number
 }
 
+export type MusicService = 'ytm' | 'spotify' | 'soundcloud'
+
+export interface ServiceBounds {
+  x: number
+  y: number
+  width: number
+  height: number
+}
+
 export interface EngineState {
   videoId: string
   playing: boolean
@@ -86,6 +95,12 @@ export interface AriaApi {
     stats(): Promise<AdBlockStats>
     toggle(): Promise<boolean>
     onStats(cb: (stats: AdBlockStats) => void): () => void
+  }
+  service: {
+    get(): Promise<MusicService>
+    set(service: MusicService, bounds?: ServiceBounds): Promise<void>
+    updateBounds(bounds: ServiceBounds): Promise<void>
+    onChanged(cb: (service: MusicService) => void): () => void
   }
   music: {
     home(): Promise<Shelf[]>

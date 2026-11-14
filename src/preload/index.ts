@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import type { AriaApi, AuthState, AdBlockStats } from '@shared/types'
+import type { AriaApi, AuthState, AdBlockStats, MusicService } from '@shared/types'
 
 const call =
   (channel: string) =>
@@ -46,6 +46,16 @@ const api: AriaApi = {
       const listener = (_e: unknown, stats: AdBlockStats): void => cb(stats)
       ipcRenderer.on('adblock:stats', listener)
       return () => ipcRenderer.removeListener('adblock:stats', listener)
+    }
+  },
+  service: {
+    get: call('service:get'),
+    set: call('service:set'),
+    updateBounds: call('service:updateBounds'),
+    onChanged(cb) {
+      const listener = (_e: unknown, service: MusicService): void => cb(service)
+      ipcRenderer.on('service:changed', listener)
+      return () => ipcRenderer.removeListener('service:changed', listener)
     }
   },
   music: {

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type JSX } from 'react'
-import type { Item } from '@shared/types'
+import type { Item, MusicService, ServiceBounds } from '@shared/types'
 import {
   adblockStore,
   api,
@@ -8,8 +8,10 @@ import {
   go,
   nav,
   openAuthModal,
+  serviceStore,
   setAccent,
   step,
+  switchService,
   themeStore,
   useData,
   type AccentColor
@@ -31,8 +33,18 @@ import {
   toggleShuffle
 } from './player'
 
+export function getCenterBounds(): ServiceBounds {
+  const sidebarWidth = 245
+  const topbarHeight = 62
+  const playerbarHeight = 90
+  const width = Math.max(400, window.innerWidth - sidebarWidth - 350)
+  const height = Math.max(300, window.innerHeight - topbarHeight - playerbarHeight)
+  return { x: sidebarWidth, y: topbarHeight, width, height }
+}
+
 export function Sidebar(): JSX.Element {
   const route = nav.use((s) => s.stack[s.pos])
+  const currentService = serviceStore.use((s) => s.current)
   const { signedIn, ready, name, photo } = {
     signedIn: auth.use((s) => s.signedIn),
     ready: auth.use((s) => s.ready),
@@ -44,34 +56,86 @@ export function Sidebar(): JSX.Element {
   const playlists = (lib.data ?? []).filter((i) => i.kind === 'playlist')
   const activeId = route.page === 'collection' ? route.id : ''
 
+  const handleServiceClick = (srv: MusicService): void => {
+    switchService(srv, getCenterBounds())
+  }
+
+  useEffect(() => {
+    const onResize = (): void => {
+      if (serviceStore.get().current !== 'ytm') {
+        void api.service.updateBounds(getCenterBounds())
+      }
+    }
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
   return (
     <aside className="sidebar">
       <div className="brand drag">
         <span className="brand-mark">
           <span className="brand-pulse" />
         </span>
-        <span className="brand-text">Aria</span>
-        <span className="brand-badge">PRO</span>
+        <span className="brand-text">Nebula</span>
+        <span className="brand-badge">UNIVERSAL</span>
+      </div>
+
+      {/* Multi-Service Switcher */}
+      <div className="service-switcher">
+        <button
+          className={`service-chip ${currentService === 'ytm' ? 'is-active' : ''}`}
+          onClick={() => handleServiceClick('ytm')}
+          title="YouTube Music"
+        >
+          <Icon name="ytm" size={16} />
+          <span>YouTube</span>
+        </button>
+        <button
+          className={`service-chip service-spotify ${currentService === 'spotify' ? 'is-active' : ''}`}
+          onClick={() => handleServiceClick('spotify')}
+          title="Spotify Web"
+        >
+          <Icon name="spotify" size={16} />
+          <span>Spotify</span>
+        </button>
+        <button
+          className={`service-chip service-soundcloud ${currentService === 'soundcloud' ? 'is-active' : ''}`}
+          onClick={() => handleServiceClick('soundcloud')}
+          title="SoundCloud"
+        >
+          <Icon name="soundcloud" size={16} />
+          <span>SoundCloud</span>
+        </button>
       </div>
 
       <nav className="side-nav">
         <button
-          className={route.page === 'home' ? 'is-active' : ''}
-          onClick={() => go({ page: 'home' })}
+          className={route.page === 'home' && currentService === 'ytm' ? 'is-active' : ''}
+          onClick={() => {
+            if (currentService !== 'ytm') handleServiceClick('ytm')
+            go({ page: 'home' })
+          }}
         >
           <Icon name="home" size={19} />
           <span>Home</span>
         </button>
         <button
-          className={route.page === 'library' ? 'is-active' : ''}
-          onClick={() => go({ page: 'library' })}
+          className={route.page === 'library' && currentService === 'ytm' ? 'is-active' : ''}
+          onClick={() => {
+            if (currentService !== 'ytm') handleServiceClick('ytm')
+            go({ page: 'library' })
+          }}
         >
           <Icon name="library" size={19} />
           <span>Library</span>
         </button>
         <button
-          className={activeId === 'LM' ? 'is-active' : ''}
-          onClick={() => (signedIn ? go({ page: 'collection', kind: 'playlist', id: 'LM' }) : openAuthModal())}
+          className={activeId === 'LM' && currentService === 'ytm' ? 'is-active' : ''}
+          onClick={() => {
+            if (currentService !== 'ytm') handleServiceClick('ytm')
+            if (signedIn) go({ page: 'collection', kind: 'playlist', id: 'LM' })
+            else openAuthModal()
+          }}
         >
           <Icon name="heartFilled" size={19} />
           <span>Liked music</span>
@@ -95,8 +159,11 @@ export function Sidebar(): JSX.Element {
         {playlists.map((p) => (
           <button
             key={p.id}
-            className={`side-list ${activeId === p.id ? 'is-active' : ''}`}
-            onClick={() => go({ page: 'collection', kind: 'playlist', id: p.id })}
+            className={`side-list ${activeId === p.id && currentService === 'ytm' ? 'is-active' : ''}`}
+            onClick={() => {
+              if (currentService !== 'ytm') handleServiceClick('ytm')
+              go({ page: 'collection', kind: 'playlist', id: p.id })
+            }}
             title={p.title}
           >
             <Art src={p.thumb} />
@@ -175,6 +242,7 @@ const ACCENT_OPTIONS: { id: AccentColor; label: string; color: string }[] = [
 export function TopBar(): JSX.Element {
   const { stack, pos } = { stack: nav.use((s) => s.stack), pos: nav.use((s) => s.pos) }
   const route = stack[pos]
+  const currentService = serviceStore.use((s) => s.current)
   const adblock = adblockStore.use((s) => s)
   const activeAccent = themeStore.use((s) => s.accent)
   const signedIn = auth.use((s) => s.signedIn)
@@ -235,6 +303,9 @@ export function TopBar(): JSX.Element {
     setValue(query)
     setOpen(false)
     input.current?.blur()
+    if (currentService !== 'ytm') {
+      switchService('ytm', getCenterBounds())
+    }
     go({ page: 'search', q: query })
   }
 
