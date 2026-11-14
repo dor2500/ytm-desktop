@@ -34,9 +34,11 @@
     },
     "files": [
       "out/**/*",
+      "resources/**/*",
       "package.json"
     ],
     "win": {
+      "icon": "build/icon.ico",
       "target": [
         "nsis",
         "portable"

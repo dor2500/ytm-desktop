@@ -98,6 +98,7 @@ async function createWindow(): Promise<void> {
     show: false,
     backgroundColor: '#07080b',
     title: 'Nebula Music',
+    icon: join(__dirname, '../../resources/icon.ico'),
     titleBarStyle: 'hidden',
     titleBarOverlay: { color: '#00000000', symbolColor: '#b9bcc6', height: 44 },
     webPreferences: {

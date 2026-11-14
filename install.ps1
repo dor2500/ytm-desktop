@@ -1,4 +1,4 @@
-﻿# ========================================================
+# ========================================================
 #  Nebula Music - One-Line Windows Installer
 #  Usage: irm https://raw.githubusercontent.com/dor2500/ytm-desktop/master/install.ps1 | iex
 # ========================================================
