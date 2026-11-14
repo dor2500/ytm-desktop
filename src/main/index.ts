@@ -8,7 +8,10 @@ import * as adblock from './adblock'
 import * as services from './services'
 import { serveRenderer } from './server'
 
-// Use real Chrome User-Agent to avoid Google's "This browser or app may not be secure" block
+// Disable Blink automation features so Google BotGuard does not detect automation
+app.commandLine.appendSwitch('disable-blink-features', 'AutomationControlled')
+
+// Use standard Chrome User-Agent to avoid Google's "This browser or app may not be secure" block
 const USER_AGENT = auth.CHROME_UA
 app.userAgentFallback = USER_AGENT
 yt.configure(USER_AGENT)
@@ -33,7 +36,13 @@ async function broadcastAuth(): Promise<AuthState> {
 function registerIpc(): void {
   ipcMain.handle('auth:state', () => authState())
   ipcMain.handle('auth:signIn', async () => {
-    if (mainWindow) await auth.signIn(mainWindow)
+    if (mainWindow) {
+      await auth.signIn(mainWindow)
+    }
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      if (mainWindow.isMinimized()) mainWindow.restore()
+      mainWindow.focus()
+    }
     return broadcastAuth()
   })
   ipcMain.handle('auth:signOut', async () => {
@@ -43,6 +52,11 @@ function registerIpc(): void {
   ipcMain.handle('auth:importCookies', async (_e, rawCookie: string) => {
     await auth.importCookieString(String(rawCookie))
     return broadcastAuth()
+  })
+  ipcMain.handle('auth:openExternal', async (_e, url: string) => {
+    if (typeof url === 'string' && /^https?:\/\//i.test(url)) {
+      await shell.openExternal(url)
+    }
   })
 
   // AdBlocker IPC

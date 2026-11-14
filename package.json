@@ -1,7 +1,7 @@
 {
   "name": "nebula-music",
   "productName": "Nebula Music",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Nebula: Universal modern desktop music player for YouTube Music, Spotify & SoundCloud with built-in ad blocker",
   "private": true,
   "main": "out/main/index.js",

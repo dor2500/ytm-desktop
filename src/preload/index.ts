@@ -33,6 +33,7 @@ const api: AriaApi = {
     signIn: call('auth:signIn'),
     signOut: call('auth:signOut'),
     importCookies: call('auth:importCookies'),
+    openExternal: call('auth:openExternal'),
     onChange(cb) {
       const listener = (_e: unknown, state: AuthState): void => cb(state)
       ipcRenderer.on('auth:changed', listener)

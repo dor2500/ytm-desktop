@@ -3,7 +3,7 @@
 <div align="center">
 
 ![Nebula Music](https://img.shields.io/badge/Nebula-Universal%20Music-10b981?style=for-the-badge)
-![Version](https://img.shields.io/badge/version-v0.2.0-blue?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-v0.2.1-blue?style=for-the-badge)
 ![Windows](https://img.shields.io/badge/platform-Windows-0078D6?style=for-the-badge&logo=windows)
 ![License](https://img.shields.io/badge/license-MIT-emerald?style=for-the-badge)
 

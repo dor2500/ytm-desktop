@@ -89,6 +89,7 @@ export interface AriaApi {
     signIn(): Promise<AuthState>
     signOut(): Promise<AuthState>
     importCookies(cookieString: string): Promise<AuthState>
+    openExternal(url: string): Promise<void>
     onChange(cb: (s: AuthState) => void): () => void
   }
   adblock: {
