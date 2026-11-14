@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- 'unsafe-inline' for scripts is required by the Vite React dev preamble.
+         No remote script or frame is loaded; https is allowed for artwork only. -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline'; frame-src 'none'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; connect-src 'self' ws:"
+    />
+    <title>Aria</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
